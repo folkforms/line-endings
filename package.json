@@ -1,5 +1,5 @@
 {
-  "name": "line-endings",
+  "name": "@folkforms/line-endings",
   "version": "0.0.0",
   "description": "Check and/or convert line endings.",
   "main": "index.js",
