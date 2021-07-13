@@ -11,7 +11,7 @@ test('that CRLF file fails LF line ending check', () => {
   try {
     lineEndings("check", "./test-data/check/test-case-1/CRLF-file.txt", "LF");
   } catch(err) {
-    expect(err).toEqual(new Error("File './test-data/check/test-case-1/CRLF-file.txt' failed line endings check"));
+    expect(err.failedFiles).toEqual([ "./test-data/check/test-case-1/CRLF-file.txt" ]);
   }
 });
 
@@ -23,7 +23,19 @@ test('that LF file fails CRLF line ending check', () => {
   try {
     lineEndings("check", "./test-data/check/test-case-1/LF-file.txt", "CRLF");
   } catch(err) {
-    expect(err).toEqual(new Error("File './test-data/check/test-case-1/LF-file.txt' failed line endings check"));
+    expect(err.failedFiles).toEqual([ "./test-data/check/test-case-1/LF-file.txt" ]);
+  }
+});
+
+test('that multiple CRLF files fails LF line ending check and return the array of failed files', () => {
+  const expectedFiles = [
+    "./test-data/check/test-case-2/CRLF-file 1.txt",
+    "./test-data/check/test-case-2/CRLF-file 2.txt",
+  ];
+  try {
+    lineEndings("check", "./test-data/check/test-case-2/*.txt", "LF");
+  } catch(err) {
+    expect(err.failedFiles).toEqual(expectedFiles);
   }
 });
 

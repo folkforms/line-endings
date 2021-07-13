@@ -8,6 +8,7 @@ const lineEndings = (option, path, eolc, ignoreFile) => {
   // console.log(`ignoreFile = ${ignoreFile}`);
 
   const files = fileio.glob(path);
+  const failed = [];
   // files = removeIgnored(files); // filter out ignored files (find a library)
   files.forEach(file => {
     // read file and check eol
@@ -20,15 +21,20 @@ const lineEndings = (option, path, eolc, ignoreFile) => {
     }
 
     // Check or write files
-    // FIXME Throw failed files into a list and throw an error at the end
     if(option === "check") {
       if(originalData !== newData) {
-        throw new Error(`File '${file}' failed line endings check`);
+        failed.push(file);
       }
     } else if(option === "write") {
       fileio.writeLines(file, newData);
     }
   });
+
+  if(failed.length > 0) {
+    const err = new Error("The following files failed the line-ending check:");
+    err.failedFiles = failed;
+    throw err;
+  }
 }
 
 module.exports = lineEndings;
