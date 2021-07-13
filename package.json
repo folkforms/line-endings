@@ -14,7 +14,8 @@
   "author": "folkforms",
   "license": "ISC",
   "devDependencies": {
-    "jest": "^27.0.6"
+    "jest": "^27.0.6",
+    "test-with-data-folder": "^0.0.6"
   },
   "dependencies": {
     "@folkforms/file-io": "^0.2.2",
