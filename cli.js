@@ -5,7 +5,7 @@ const program = new Command();
 program
   .option('-c, --check <path>', 'Check line endings')
   .option('-w, --write <path>', 'Write line endings')
-  .requiredOption('-l, --line-ending <type>', 'Line ending to use: LF, CRLF or CR');
+  .requiredOption('-l, --line-ending <type>', 'Line ending to use: LF or CRLF');
 program.parse(process.argv);
 
 console.log(`program.opts() = ${JSON.stringify(program.opts())}`);
