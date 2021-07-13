@@ -4,26 +4,26 @@ const lineEndings = require("./line-endings");
 // -------- 'Check' tests --------
 
 test('that LF file passes LF line ending check', () => {
-  lineEndings("check", "./test-data/check/LF-file.txt", "LF");
+  lineEndings("check", "./test-data/check/test-case-1/LF-file.txt", "LF");
 });
 
 test('that CRLF file fails LF line ending check', () => {
   try {
-    lineEndings("check", "./test-data/check/CRLF-file.txt", "LF");
+    lineEndings("check", "./test-data/check/test-case-1/CRLF-file.txt", "LF");
   } catch(err) {
-    expect(err).toEqual(new Error("File './test-data/check/CRLF-file.txt' failed line endings check"));
+    expect(err).toEqual(new Error("File './test-data/check/test-case-1/CRLF-file.txt' failed line endings check"));
   }
 });
 
 test('that CRLF file passes CRLF line ending check', () => {
-  lineEndings("check", "./test-data/check/CRLF-file.txt", "CRLF");
+  lineEndings("check", "./test-data/check/test-case-1/CRLF-file.txt", "CRLF");
 });
 
 test('that LF file fails CRLF line ending check', () => {
   try {
-    lineEndings("check", "./test-data/check/LF-file.txt", "CRLF");
+    lineEndings("check", "./test-data/check/test-case-1/LF-file.txt", "CRLF");
   } catch(err) {
-    expect(err).toEqual(new Error("File './test-data/check/LF-file.txt' failed line endings check"));
+    expect(err).toEqual(new Error("File './test-data/check/test-case-1/LF-file.txt' failed line endings check"));
   }
 });
 
