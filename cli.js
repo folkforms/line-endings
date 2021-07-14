@@ -8,7 +8,6 @@ program
   .requiredOption('-l, --line-ending <type>', 'Line ending to use: LF or CRLF');
 program.parse(process.argv);
 
-console.log(`program.opts() = ${JSON.stringify(program.opts())}`);
 const option = program.opts().write ? "write" : "check"
 const path = program.opts().check || program.opts().write;
 const eolc = program.opts().lineEnding;
