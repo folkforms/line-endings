@@ -1,15 +1,21 @@
 const fs = require("fs-extra");
 const fileio = require("@folkforms/file-io");
 
-const lineEndings = (option, path, eolc, ignoreFile) => {
-  // console.log(`option = ${option}`);
-  // console.log(`path = ${path}`);
-  // console.log(`eolc = ${eolc}`);
-  // console.log(`ignoreFile = ${ignoreFile}`);
+const ignore = require("ignore");
 
-  const files = fileio.glob(path);
+const lineEndings = (option, path, eolc, ignoreFile) => {
+  let files = fileio.glob(path);
+  files = files.map(file => {
+    return file.startsWith("./") ? file.substring(2) : file;
+  });
+
+  if(ignoreFile) {
+    const ignoreData = fileio.readLines(ignoreFile);
+    const ig = ignore().add(ignoreData);
+    files = ig.filter(files);
+  }
+
   const failed = [];
-  // files = removeIgnored(files); // filter out ignored files (find a library)
   files.forEach(file => {
     // read file and check eol
     const originalData = fs.readFileSync(file, "utf-8");
