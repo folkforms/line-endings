@@ -1,5 +1,6 @@
 const lineEndings = require("./line-endings");
 const { Command } = require('commander');
+const fs = require("fs-extra");
 const program = new Command();
 
 program
@@ -12,6 +13,6 @@ program.parse(process.argv);
 const option = program.opts().write ? "write" : "check"
 const path = program.opts().check || program.opts().write;
 const eolc = program.opts().lineEnding;
-const ignoreFile = program.opts().ignore || ".gitignore";
+let ignoreFile = program.opts().ignore || fs.existsSync(".gitignore") ? ".gitignore" : undefined;
 
 return lineEndings(option, path, eolc, ignoreFile);
