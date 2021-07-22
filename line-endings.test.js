@@ -86,20 +86,20 @@ test('that LF file is converted to CRLF', () => {
 // -------- 'Ignore' tests --------
 
 test('that ignored files do not break the check', () => {
-  lineEndings("check", "./test-data/ignore/test-case-1/*", "LF", "./test-data/ignore/test-case-1/.gitignore");
+  lineEndings("check", "./test-data/ignore/test-case-1/**", "LF");
 });
 
 test('a mixture of ignored and not ignored files', () => {
   const expectedFailures = [ "test-data/ignore/test-case-1/LF-file 1.txt" ];
   try {
-    lineEndings("check", "./test-data/ignore/test-case-1/*", "CRLF", "./test-data/ignore/test-case-1/.gitignore");
+    lineEndings("check", "./test-data/ignore/test-case-1/**", "CRLF");
   } catch(err) {
     expect(err.failedFiles).toEqual(expectedFailures);
     expect(err.message).toEqual("The following files failed the line-ending check:");
   }
 });
 
-test.skip('the .gitignore file is not in the root folder', () => {
+test('that the .gitignore file does not need to be in the root folder', () => {
   const expectedFailures = [ "test-data/ignore/test-case-2/CRLF-file 1.txt" ];
   try {
     lineEndings("check", "./test-data/ignore/test-case-2/**", "LF");

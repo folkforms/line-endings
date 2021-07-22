@@ -311,6 +311,14 @@
     fs-extra "^9.1.0"
     jest "^27.0.4"
 
+"@folkforms/file-io@^0.2.3":
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/@folkforms/file-io/-/file-io-0.2.3.tgz#6f10c96d6c7aaa1e27e4566bd37693532b31dfa7"
+  integrity sha512-4GCoabgInYEi4nD8fBbJV6n1vtQfdDrb8qpN1J9nhpE5OlcDUpEOssaxlYoX0+WznsCb5ZmbU4D2LpUA/MPKEw==
+  dependencies:
+    fast-glob "^3.2.5"
+    fs-extra "^9.1.0"
+
 "@folkforms/npm-release@^0.0.18":
   version "0.0.18"
   resolved "https://registry.yarnpkg.com/@folkforms/npm-release/-/npm-release-0.0.18.tgz#85c6ffe8588e064d591837fb4d5e5360a9be3313"

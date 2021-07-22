@@ -1,21 +1,20 @@
 const fs = require("fs-extra");
 const fileio = require("@folkforms/file-io");
-
 const ignore = require("ignore");
 
-const lineEndings = (option, path, eolc, ignoreFile) => {
+const lineEndings = (option, path, eolc) => {
   let files = fileio.glob(path);
   files = files.map(file => {
     return file.startsWith("./") ? file.substring(2) : file;
   });
 
-  if(ignoreFile) {
-    const ignoreData = fileio.readLines(ignoreFile);
-    ignoreData.push("yarn.lock");
-    ignoreData.push("package-lock.json");
-    const ig = ignore().add(ignoreData);
-    files = ig.filter(files);
-  }
+  let dotFiles = fileio.glob(path, { dot: true });
+  dotFiles = dotFiles.filter(f => f.endsWith("/.gitignore"));
+  const ignoreData = consolidateGitIgnoreData(dotFiles);
+  ignoreData.push("**/yarn.lock");
+  ignoreData.push("**/package-lock.json");
+  const ig = ignore().add(ignoreData);
+  files = ig.filter(files);
 
   const failed = [];
   files.forEach(file => {
@@ -43,6 +42,18 @@ const lineEndings = (option, path, eolc, ignoreFile) => {
     err.failedFiles = failed;
     throw err;
   }
+}
+
+const consolidateGitIgnoreData = dotFiles => {
+  let data = [];
+  dotFiles.forEach(ignoreFile => {
+    let ignoreData = fileio.readLines(ignoreFile);
+    ignoreData = ignoreData.filter(f => f.length > 0);
+    ignoreData = ignoreData.map(item => `${ignoreFile.substring(0, ignoreFile.lastIndexOf("/") + 1)}${item}`);
+    ignoreData = ignoreData.map(item => item.startsWith("./") ? item.substring(2) : item);
+    data.push(ignoreData);
+  });
+  return data.flat();
 }
 
 module.exports = lineEndings;
