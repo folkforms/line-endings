@@ -50,6 +50,7 @@ const consolidateGitIgnoreData = dotFiles => {
     let ignoreData = fileio.readLines(ignoreFile);
     ignoreData = ignoreData.filter(f => f.length > 0);
     ignoreData = ignoreData.map(item => `${ignoreFile.substring(0, ignoreFile.lastIndexOf("/") + 1)}${item}`);
+    ignoreData = ignoreData.map(item => item.replace(/\/{2,}/g, "/"));
     ignoreData = ignoreData.map(item => item.startsWith("./") ? item.substring(2) : item);
     data.push(ignoreData);
   });
