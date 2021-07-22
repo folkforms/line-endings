@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const lineEndings = require("./line-endings");
 const { Command } = require('commander');
 const fs = require("fs-extra");
