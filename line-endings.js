@@ -11,6 +11,8 @@ const lineEndings = (option, path, eolc, ignoreFile) => {
 
   if(ignoreFile) {
     const ignoreData = fileio.readLines(ignoreFile);
+    ignoreData.push("yarn.lock");
+    ignoreData.push("package-lock.json");
     const ig = ignore().add(ignoreData);
     files = ig.filter(files);
   }
