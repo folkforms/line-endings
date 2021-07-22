@@ -9,7 +9,7 @@ const lineEndings = (option, path, eolc) => {
   });
 
   let dotFiles = fileio.glob(path, { dot: true });
-  dotFiles = dotFiles.filter(f => f.endsWith("/.gitignore"));
+  dotFiles = dotFiles.filter(f => f.endsWith(".gitignore"));
   const ignoreData = consolidateGitIgnoreData(dotFiles);
   ignoreData.push("**/yarn.lock");
   ignoreData.push("**/package-lock.json");
