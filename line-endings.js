@@ -38,10 +38,13 @@ const lineEndings = (option, path, eolc) => {
   });
 
   if(failed.length > 0) {
-    const err = new Error("The following files failed the line-ending check:");
-    err.failedFiles = failed;
-    throw err;
+    console.log("ERROR: The following files failed the line-ending check:");
+    for(let i = 0; i < failed.length; i++) {
+      console.log(failed[i]);
+    }
+    return { code: 1, failed };
   }
+  return { code: 0 };
 }
 
 const consolidateGitIgnoreData = dotFiles => {
