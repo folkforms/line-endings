@@ -4,15 +4,14 @@ const ignore = require("ignore");
 
 const lineEndings = (option, path, eolc) => {
   let files = fileio.glob(path);
-  files = files.map(file => {
-    return file.startsWith("./") ? file.substring(2) : file;
-  });
+  files = files.map(file => file.startsWith("./") ? file.substring(2) : file);
 
   let dotFiles = fileio.glob(path, { dot: true });
-  dotFiles = dotFiles.filter(f => f.endsWith(".gitignore"));
-  const ignoreData = consolidateGitIgnoreData(dotFiles);
+  dotFiles = dotFiles.filter(f => f.endsWith(".gitignore") || f.endsWith(".line-endings-ignore"));
+  const ignoreData = readIgnoreData(dotFiles);
   ignoreData.push("**/yarn.lock");
   ignoreData.push("**/package-lock.json");
+
   const ig = ignore().add(ignoreData);
   files = ig.filter(files);
 
@@ -47,9 +46,9 @@ const lineEndings = (option, path, eolc) => {
   return { code: 0 };
 }
 
-const consolidateGitIgnoreData = dotFiles => {
+const readIgnoreData = inputFiles => {
   let data = [];
-  dotFiles.forEach(ignoreFile => {
+  inputFiles.forEach(ignoreFile => {
     let ignoreData = fileio.readLines(ignoreFile);
     ignoreData = ignoreData.filter(f => f.length > 0);
     ignoreData = ignoreData.map(item => `${ignoreFile.substring(0, ignoreFile.lastIndexOf("/") + 1)}${item}`);
