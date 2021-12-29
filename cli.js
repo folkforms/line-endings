@@ -14,4 +14,5 @@ const option = program.opts().write ? "write" : "check"
 const path = program.opts().check || program.opts().write || "**";
 const eolc = program.opts().lineEnding;
 
-return lineEndings(option, path, eolc).code;
+const code = lineEndings(option, path, eolc).code;
+process.exit(code);
